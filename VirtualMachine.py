@@ -31,3 +31,18 @@ class VirtualMachine(object):
         local_names.update(callargs)
         frame = Frame(code, global_names, local_names, self.frame)
         return frame
+
+        def push_frame(self, frame:
+            self.frames.append(frame)
+            self.frame = frame
+
+        def pop_frame(self):
+            self.frames.pop()
+            if self.frames:
+                self.frame = self.frames[-1]
+            else:
+                self.frame = None
+
+        def run_frame(self):
+            pass
+            # TODO
