@@ -43,19 +43,14 @@ class Interpreter:
         self.stack.append(total)
 
     # what_to_execute is a dictionary
-    def run_code(self, what_to_execute):
+    def execute(self, what_to_execute):
         instructions = what_to_execute["instructions"]
-        numbers = what_to_execute["numbers"]
         for each_step in instructions:
             instruction, argument = each_step
-            if instruction == "LOAD_VALUE":
-                number = numbers[argument]
-                self.LOAD_VALUE(number)
-            elif instruction == "ADD_TWO_VALUES":
-                self.ADD_TWO_VALUES()
-            elif instruction == "PRINT_ANSWER":
-                self.PRINT_ANSWER()
-            elif instruction == "STORE_NAME":
-                self.STORE_NAME(argument)
-            elif instruction == "LOAD_NAME":
-                self.LOAD_NAME(argument)
+            argument = self.parse_argument(
+                instruction, argument, what_to_execute)
+            bytecode_method = getattr(self, instruction)
+            if argument is None:
+                bytecode_method()
+            else:
+                bytecode_method(argument)
